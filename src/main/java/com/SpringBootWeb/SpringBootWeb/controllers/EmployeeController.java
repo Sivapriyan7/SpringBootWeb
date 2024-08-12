@@ -2,6 +2,9 @@ package com.SpringBootWeb.SpringBootWeb.controllers;
 
 
 import com.SpringBootWeb.SpringBootWeb.dto.EmployeeDTO;
+import com.SpringBootWeb.SpringBootWeb.entities.EmployeeEntity;
+import com.SpringBootWeb.SpringBootWeb.repositories.EmployeeRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -16,25 +19,29 @@ public class EmployeeController {
 //    {
 //        return "Secret message : Sivapriyan M";
 //    }
+    private final EmployeeRepository employeeRepository;
+
+    public EmployeeController(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
 
     @GetMapping("/{employeeId}")
-    public EmployeeDTO getEmployeeById(@PathVariable(name = "employeeId") Long id){
+    public EmployeeEntity getEmployeeById(@PathVariable(name = "employeeId") Long id){
 
-        return new EmployeeDTO(id, "Siva","siva@gmail.com",23, LocalDate.of(2024,1,2),true);
+        return employeeRepository.findById(id).orElse(null);
     }
 
     @GetMapping
-    public String getAllEmployees(@RequestParam(required = false) Integer age,
+    public List<EmployeeEntity> getAllEmployees(@RequestParam(required = false) Integer age,
                                   @RequestParam(required = false) String sortBy)
     {
-        return "Hi age "+ age+ sortBy;
+        return employeeRepository.findAll();
     }
 
     @PostMapping
-    public EmployeeDTO createNewEmployee(@RequestBody EmployeeDTO inputEmployee)
+    public EmployeeEntity createNewEmployee(@RequestBody EmployeeEntity inputEmployee)
     {
-        inputEmployee.setId(100L);
-        return inputEmployee;
+        return employeeRepository.save(inputEmployee);
     }
 
     @PutMapping String updateEmployeeById()
