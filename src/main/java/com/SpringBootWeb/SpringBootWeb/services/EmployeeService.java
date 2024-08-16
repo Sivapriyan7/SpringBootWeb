@@ -1,8 +1,10 @@
 package com.SpringBootWeb.SpringBootWeb.services;
 
 
+import com.SpringBootWeb.SpringBootWeb.dto.EmployeeDTO;
 import com.SpringBootWeb.SpringBootWeb.entities.EmployeeEntity;
 import com.SpringBootWeb.SpringBootWeb.repositories.EmployeeRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +18,10 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public EmployeeEntity getEmployeeById(Long id) {
-        return employeeRepository.findById(id).orElse(null);
+    public EmployeeDTO getEmployeeById(Long id) {
+        EmployeeEntity employeeEntity = employeeRepository.findById(id).orElse(null);
+        ModelMapper mapper = new ModelMapper();
+        return mapper.map(employeeEntity, EmployeeDTO.class);
     }
 
     public List<EmployeeEntity> getAllEmployees() {
