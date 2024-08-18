@@ -52,7 +52,7 @@ public class EmployeeController {
     public ResponseEntity<EmployeeDTO> createNewEmployee(@RequestBody EmployeeDTO inputEmployee)
     {
         EmployeeDTO savedEmployee =  employeeService.createNewEmployee(inputEmployee);
-        return  new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
+        return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
     }
 
     @PutMapping(path = "/{employeeId}")
