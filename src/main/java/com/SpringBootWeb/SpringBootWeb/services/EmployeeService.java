@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,10 +48,21 @@ public class EmployeeService {
         return modelMapper.map(savedEmployeeEntity, EmployeeDTO.class);
     }
 
+    public boolean isExistByEmployeeId(Long employeeId){
+        return employeeRepository.existsById(employeeId);
+    }
+
     public boolean deleteEmployeeById(Long employeeId) {
-            boolean exists = employeeRepository.existsById(employeeId);
+            boolean exists = isExistByEmployeeId(employeeId);
             if(!exists)return false;
             employeeRepository.deleteById(employeeId);
             return true;
+    }
+
+    public EmployeeDTO updatePartialEmployeeById(Long employeeId, Map<String, Object> updates) {
+        boolean exists = isExistByEmployeeId(employeeId);
+        if(!exists)return null;
+        EmployeeEntity employeeEntity = employeeRepository.findById(employeeId).get();
+
     }
 }
