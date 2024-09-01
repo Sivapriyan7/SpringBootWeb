@@ -1,6 +1,7 @@
 package com.SpringBootWeb.SpringBootWeb.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,9 +16,19 @@ import java.time.LocalDate;
 public class EmployeeDTO {
 
     private Long id;
+
+    @NotBlank(message =  "Name of the employee can't be empty")
+    @Size(min = 3,max = 15, message = "Number of characters in name should be in range")
     private String name;
+
+    @Email(message = "Enter a valid Email")
     private String email;
+
+    @Max(value = 80, message = "Age can't be greater than 80")
+    @Min(value = 18, message = "Age can't be lesser than 18")
     private Integer age;
+
+
     private LocalDate dateOfJoining;
     @JsonProperty("isActive")
     private Boolean isActive;
