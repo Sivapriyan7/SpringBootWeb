@@ -1,11 +1,13 @@
 package com.SpringBootWeb.SpringBootWeb.dto;
 
+import com.SpringBootWeb.SpringBootWeb.annotation.EmployeeRoleValidation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDate;
 
@@ -31,10 +33,21 @@ public class EmployeeDTO {
     private Integer age;
 
     @NotBlank(message = "Role of the Employee cannot be blank")
-    @Pattern(regexp = "^(ADMIN|USER)$",message = "Role of Employee can be USER or ADMIN")
+//    @Pattern(regexp = "^(ADMIN|USER)$",message = "Role of Employee can be USER or ADMIN")
+    @EmployeeRoleValidation
     private String role;
 
+    @NotNull(message = "Salary of Employee should be not null")
+    @Positive(message = "Salary of Employee should be positive")
+    @Digits(integer = 6,fraction = 2,message = "The salary can be in the form xxxxxx.yy")
+    @DecimalMax(value = "100000.99")
+    @DecimalMin(value = "100.50")
+    private Double salary;
+
+    @PastOrPresent(message = "DateOfJoining field in Employee cannot be in Future")
     private LocalDate dateOfJoining;
+
+    @AssertTrue(message = "Employee should be active")
     @JsonProperty("isActive")
     private Boolean isActive;
 
