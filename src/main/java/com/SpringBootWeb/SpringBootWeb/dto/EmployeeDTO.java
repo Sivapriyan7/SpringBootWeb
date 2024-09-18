@@ -37,6 +37,7 @@ public class EmployeeDTO {
     @EmployeeRoleValidation
     private String role;
 
+
     @NotNull(message = "Salary of Employee should be not null")
     @Positive(message = "Salary of Employee should be positive")
     @Digits(integer = 6,fraction = 2,message = "The salary can be in the form xxxxxx.yy")
